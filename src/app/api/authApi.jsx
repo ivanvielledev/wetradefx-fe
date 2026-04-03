@@ -1,0 +1,44 @@
+// urls
+const baseApiUrl = import.meta.env.VITE_API_URL;
+const authApiUrl = `${baseApiUrl}/auth`;
+
+// login by email
+const loginByEmailApi = async ({ username, password }) => {
+    const response = await fetch(`${authApiUrl}/login-email`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ username, password }),
+    });
+
+    const data = await response.json();
+    return data;
+};
+
+// register by email
+const registerByEmailApi = async ({ email, username, mobileNo, password }) => {
+    const response = await fetch(`${authApiUrl}/register-email`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, username, mobileNo, password }),
+    });
+    const data = await response.json();
+    return data;
+};
+
+// logout
+const logoutApi = async () => {
+    const response = await fetch(`${authApiUrl}/logout`, {
+        method: "POST",
+        credentials: "include",
+    });
+
+    const data = await response.json();
+    return data;
+};
+
+export { loginByEmailApi, registerByEmailApi, logoutApi };
