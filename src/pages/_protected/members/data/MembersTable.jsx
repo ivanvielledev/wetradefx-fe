@@ -246,6 +246,33 @@ const MembersTable = ({ members }) => {
                                 {me?.globalRole === "superadmin" && (
                                     <TableCell>
                                         <Box sx={{ display: "flex", alignItems: "center" }}>
+                                            {/* create subscription */}
+                                            {member?.subscription?.plan === "free" &&
+                                                member?.subscription?.status === "new" && (
+                                                    <Box sx={{ flexShrink: 1 }}>
+                                                        <Tooltip
+                                                            title="Approve subscription"
+                                                            placement="bottom"
+                                                        >
+                                                            <IconButton
+                                                                size="small"
+                                                                variant="text"
+                                                                color="success"
+                                                                onClick={e =>
+                                                                    handleUpdateUserSubscription(
+                                                                        e,
+                                                                        member?._id,
+                                                                        "vip",
+                                                                        "active",
+                                                                    )
+                                                                }
+                                                            >
+                                                                <GradeOutlinedIcon fontSize="small" />
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                    </Box>
+                                                )}
+
                                             {/* approve subscription */}
                                             {member?.subscription?.plan === "free" &&
                                                 member?.subscription?.status === "pending" && (

@@ -23,7 +23,8 @@ const MembersHomePage = () => {
     const { me, users, getUsers } = useAuth();
 
     const filtered = useMemo(() => {
-        if (!users) return { admins: [], vip: [], members: [], applicants: [], banned: [] };
+        if (!users)
+            return { admins: [], vip: [], members: [], applicants: [], new: [], banned: [] };
 
         return {
             admins: users.filter(user => user.globalRole !== "user" && user.status === "active"),
@@ -36,6 +37,7 @@ const MembersHomePage = () => {
             ),
             members: users.filter(user => user.globalRole === "user" && user.status === "active"),
             applicants: users.filter(user => user.status === "pending"),
+            new: users.filter(user => user.status === "new"),
             banned: users.filter(user => user.status === "banned"),
         };
     }, [users]);
@@ -46,11 +48,13 @@ const MembersHomePage = () => {
 
     // socket events
     useEffect(() => {
+        socket.on("new_user_registered", getUsers);
         socket.on("new_user_status", getUsers);
         socket.on("new_user_globalRole", getUsers);
         socket.on("new_user_subscription", getUsers);
 
         return () => {
+            socket.off("new_user_registered", getUsers);
             socket.off("new_user_status", getUsers);
             socket.off("new_user_globalRole", getUsers);
             socket.off("new_user_subscription", getUsers);
@@ -82,6 +86,7 @@ const MembersHomePage = () => {
                 {isSuper && <Tab label="VIP" value="vip" />}
                 <Tab label="Members" value="members" />
                 {isAuthorized && <Tab label="Applicants" value="applicants" />}
+                {isAuthorized && <Tab label="New" value="new" />}
                 {isAuthorized && <Tab label="Banned" value="banned" />}
             </Tabs>
 
