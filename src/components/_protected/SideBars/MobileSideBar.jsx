@@ -21,6 +21,8 @@ import SideBarHeader from "./SideBarHeader";
 import SideBarListItem from "./SideBarListItem";
 
 const MobileSideBar = ({ me, drawerOpen, drawerWidth, toggleDrawerOpen }) => {
+    const admin = me?.globalRole === "superadmin" || me?.globalRole === "admin";
+
     // main nav list
     const MAIN_LIST = [
         {
@@ -31,15 +33,13 @@ const MobileSideBar = ({ me, drawerOpen, drawerWidth, toggleDrawerOpen }) => {
         },
         {
             id: 1,
-            title: "Signals",
-            icon: <SignalWifi4BarOutlinedIcon fontSize="small" />,
-            to: `/d/signals`,
-        },
-        {
-            id: 2,
-            title: "Copy Trades",
-            icon: <ContentCopyOutlinedIcon fontSize="small" />,
-            to: `/d/copy-trades`,
+            title: admin ? "Signals" : "Copy Trades",
+            icon: admin ? (
+                <SignalWifi4BarOutlinedIcon fontSize="small" />
+            ) : (
+                <ContentCopyOutlinedIcon fontSize="small" />
+            ),
+            to: admin ? `/d/signals` : `/d/copy-trades`,
         },
         {
             id: 3,

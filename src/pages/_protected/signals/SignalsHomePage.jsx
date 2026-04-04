@@ -34,6 +34,7 @@ const SignalsHomePage = () => {
             socket.off("closed_mt5_signal", getSignals);
         };
     }, [getSignals]);
+
     return (
         <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
             <Box sx={{ mb: 4 }}>
