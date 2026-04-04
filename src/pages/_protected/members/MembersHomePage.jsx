@@ -8,6 +8,9 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
 //
+import GoBackButton from "../../../components/_root/Buttons/GoBackButton";
+
+// data table
 import MembersTable from "./data/MembersTable";
 
 // hooks
@@ -68,6 +71,10 @@ const MembersHomePage = () => {
 
     return (
         <Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 2 }}>
+            <Box sx={{ mb: 4 }}>
+                <GoBackButton label="Go back to Dashboard" destination={`/d`} />
+            </Box>
+
             <Typography variant="overline">Members</Typography>
 
             <Tabs value={activeUsersTab} onChange={handleChangeTab} variant="scrollable">

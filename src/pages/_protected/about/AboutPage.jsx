@@ -2,11 +2,8 @@
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
-
-// react-router-dom
-import { Link as RouterLink } from "react-router-dom";
+import MUILink from "@mui/material/Link";
 
 import companyLogo from "../../../assets/wetradefx.jpg";
 
@@ -24,7 +21,7 @@ const AboutPage = () => {
                 </Typography>
             </Box>
 
-            {/* company logo */}
+            {/* company logo and name */}
             <Box
                 sx={{
                     flex: 1,
@@ -40,17 +37,26 @@ const AboutPage = () => {
                 <Typography variant="h6" fontWeight={700}>
                     WeTradeFX
                 </Typography>
+            </Box>
 
+            <Box
+                sx={{
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    maxWidth: 800,
+                    width: "100%",
+                    m: "0 auto",
+                    mt: 2,
+                }}
+            >
                 <Typography variant="caption" color="text.secondary">
-                    WeTradeFX is a community for modern traders.
-                </Typography>
-
-                <Typography variant="caption" color="text.secondary">
-                    We provider automated and real-time signal broadcasts for all of our members.
-                </Typography>
-
-                <Typography variant="caption" color="text.secondary">
-                    Fully automated copy trading is also available for our VIP subscribers.
+                    A premier trading membership platform dedicated to bridging the gap between
+                    professional strategy and retail execution. We provide high-precision, real-time
+                    broadcasts of expert trading signals and a seamless, fully automated copy
+                    trading infrastructure. By combining institutional-grade market analysis with
+                    user-centric automation, WeTradeFX empowers traders of all levels to mirror
+                    proven success and navigate the global markets with confidence.
                 </Typography>
             </Box>
 
@@ -84,7 +90,13 @@ const AboutPage = () => {
                     >
                         <Box sx={{ flex: 1 }}>
                             <Typography variant="overline" color="primary">
-                                Facebook: https://facebook.com
+                                Facebook:{" "}
+                                <MUILink
+                                    href="https://www.facebook.com/profile.php?id=61576789650930"
+                                    target="_blank"
+                                >
+                                    https://www.facebook.com/wetradefx
+                                </MUILink>
                             </Typography>
                         </Box>
                         <Box sx={{ flex: 1 }}>

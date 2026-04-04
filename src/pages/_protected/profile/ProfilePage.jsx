@@ -13,6 +13,9 @@ import Divider from "@mui/material/Divider";
 // react-router-dom
 import { useParams, Link as RouterLink } from "react-router-dom";
 
+//
+import GoBackButton from "../../../components/_root/Buttons/GoBackButton";
+
 // hooks
 import useAuth from "../../../hooks/useAuth";
 
@@ -35,6 +38,10 @@ const ProfilePage = () => {
 
     return (
         <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+            <Box sx={{ mb: 4 }}>
+                <GoBackButton label="Go back to Dashboard" destination={`/d`} />
+            </Box>
+
             {/* avatar */}
             <Box
                 component={Paper}

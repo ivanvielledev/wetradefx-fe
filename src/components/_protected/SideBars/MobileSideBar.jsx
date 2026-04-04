@@ -8,6 +8,7 @@ import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import SignalWifi4BarOutlinedIcon from "@mui/icons-material/SignalWifi4BarOutlined";
 import TerminalOutlinedIcon from "@mui/icons-material/TerminalOutlined";
+import ContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined";
 import InboxOutlinedIcon from "@mui/icons-material/InboxOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
@@ -19,7 +20,7 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import SideBarHeader from "./SideBarHeader";
 import SideBarListItem from "./SideBarListItem";
 
-const MobileSideBar = ({ drawerOpen, drawerWidth, toggleDrawerOpen }) => {
+const MobileSideBar = ({ me, drawerOpen, drawerWidth, toggleDrawerOpen }) => {
     // main nav list
     const MAIN_LIST = [
         {
@@ -36,6 +37,12 @@ const MobileSideBar = ({ drawerOpen, drawerWidth, toggleDrawerOpen }) => {
         },
         {
             id: 2,
+            title: "Copy Trades",
+            icon: <ContentCopyOutlinedIcon fontSize="small" />,
+            to: `/d/copy-trades`,
+        },
+        {
+            id: 3,
             title: "Members",
             icon: <PeopleAltOutlinedIcon fontSize="small" />,
             to: `/d/members`,
@@ -56,12 +63,12 @@ const MobileSideBar = ({ drawerOpen, drawerWidth, toggleDrawerOpen }) => {
             icon: <InfoOutlinedIcon fontSize="small" />,
             to: `/d/about`,
         },
-        {
-            id: 2,
-            title: "Help",
-            icon: <HelpOutlineOutlinedIcon fontSize="small" />,
-            to: `/d/help`,
-        },
+        // {
+        //     id: 2,
+        //     title: "Help",
+        //     icon: <HelpOutlineOutlinedIcon fontSize="small" />,
+        //     to: `/d/help`,
+        // },
     ];
 
     return (

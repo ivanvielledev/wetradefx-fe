@@ -8,6 +8,7 @@ import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import SignalWifi4BarOutlinedIcon from "@mui/icons-material/SignalWifi4BarOutlined";
 import TerminalOutlinedIcon from "@mui/icons-material/TerminalOutlined";
+import ContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined";
 import InboxOutlinedIcon from "@mui/icons-material/InboxOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
@@ -19,7 +20,9 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import SideBarHeader from "./SideBarHeader";
 import SideBarListItem from "./SideBarListItem";
 
-const DesktopSideBar = ({ drawerOpen, drawerWidth, toggleDrawerOpen }) => {
+const DesktopSideBar = ({ me, drawerOpen, drawerWidth, toggleDrawerOpen }) => {
+    const admin = me?.globalRole === "superadmin" || me?.globalRole === "admin";
+
     // main nav list
     const MAIN_LIST = [
         {
@@ -30,12 +33,16 @@ const DesktopSideBar = ({ drawerOpen, drawerWidth, toggleDrawerOpen }) => {
         },
         {
             id: 1,
-            title: "Signals",
-            icon: <SignalWifi4BarOutlinedIcon fontSize="small" />,
-            to: `/d/signals`,
+            title: admin ? "Signals" : "Copy Trades",
+            icon: admin ? (
+                <SignalWifi4BarOutlinedIcon fontSize="small" />
+            ) : (
+                <ContentCopyOutlinedIcon fontSize="small" />
+            ),
+            to: admin ? `/d/signals` : `/d/copy-trades`,
         },
         {
-            id: 2,
+            id: 3,
             title: "Members",
             icon: <PeopleAltOutlinedIcon fontSize="small" />,
             to: `/d/members`,
@@ -56,12 +63,12 @@ const DesktopSideBar = ({ drawerOpen, drawerWidth, toggleDrawerOpen }) => {
             icon: <InfoOutlinedIcon fontSize="small" />,
             to: `/d/about`,
         },
-        {
-            id: 2,
-            title: "Help",
-            icon: <HelpOutlineOutlinedIcon fontSize="small" />,
-            to: `/d/help`,
-        },
+        // {
+        //     id: 2,
+        //     title: "Help",
+        //     icon: <HelpOutlineOutlinedIcon fontSize="small" />,
+        //     to: `/d/help`,
+        // },
     ];
 
     return (

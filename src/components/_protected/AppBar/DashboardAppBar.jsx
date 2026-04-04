@@ -114,6 +114,28 @@ const DashboardAppBar = ({ toggleDrawerOpen }) => {
                         </MUILink>
                     )}
 
+                    {isMdDown && (
+                        <MUILink
+                            component={RouterLink}
+                            to={`/u/${me?._id}`}
+                            sx={{
+                                flex: 1,
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                alignItems: "center",
+                                gap: 1.5,
+                                color: "primary.main",
+                                textDecoration: "none",
+                            }}
+                        >
+                            <Avatar src={me?.avatar}>
+                                <Typography variant="body1" fontWeight={700}>
+                                    {me?.username?.charAt(0).toUpperCase()}
+                                </Typography>
+                            </Avatar>
+                        </MUILink>
+                    )}
+
                     <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
 
                     {/* logout */}

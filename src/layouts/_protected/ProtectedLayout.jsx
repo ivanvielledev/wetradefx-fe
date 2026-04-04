@@ -13,6 +13,7 @@ import UnverifiedComponent from "../../components/_protected/UnverifiedComponent
 
 // providers
 import { SignalProvider } from "../../contexts/SignalContextProvider";
+import { TradeProvider } from "../../contexts/TradeContextProvider";
 
 // hooks
 import { useTheme } from "@mui/material/styles";
@@ -38,6 +39,7 @@ const ProtectedLayout = () => {
             {/* desktop sidebar */}
             {!isMdDown && (
                 <DesktopSideBar
+                    me={me}
                     drawerWidth={drawerWidth}
                     drawerOpen={drawerOpen}
                     toggleDrawerOpen={toggleDrawerOpen}
@@ -47,6 +49,7 @@ const ProtectedLayout = () => {
             {/* mobile sidebar */}
             {isMdDown && (
                 <MobileSideBar
+                    me={me}
                     drawerWidth={drawerWidth}
                     drawerOpen={drawerOpen}
                     toggleDrawerOpen={toggleDrawerOpen}
@@ -77,7 +80,9 @@ const ProtectedLayout = () => {
 
                         {!applicant && (
                             <SignalProvider>
-                                <Outlet />
+                                <TradeProvider>
+                                    <Outlet />
+                                </TradeProvider>
                             </SignalProvider>
                         )}
                     </Container>

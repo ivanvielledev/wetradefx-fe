@@ -10,7 +10,7 @@ import Paper from "@mui/material/Paper";
 // utils
 import { formatDate } from "../../../../utils/formatDate";
 
-const SignalHistory = ({ signals }) => {
+const CopyTradesHistoryTable = ({ trades }) => {
     return (
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
             <TableContainer>
@@ -35,61 +35,61 @@ const SignalHistory = ({ signals }) => {
 
                     {/* body */}
                     <TableBody>
-                        {signals.map(signal => (
-                            <TableRow key={signal._id}>
+                        {trades.map(trade => (
+                            <TableRow key={trade._id}>
                                 {/* created at */}
                                 <TableCell sx={{ minWidth: 180 }}>
-                                    {formatDate(signal.createdAt)}
+                                    {formatDate(trade.createdAt)}
                                 </TableCell>
                                 {/* ticket */}
-                                <TableCell>{signal.ticket}</TableCell>
-                                <TableCell>{signal.symbol}</TableCell>
+                                <TableCell>{trade.ticket}</TableCell>
+                                <TableCell>{trade.symbol}</TableCell>
                                 <TableCell
                                     sx={{
                                         color:
-                                            signal.action === "BUY" ? "success.main" : "error.main",
+                                            trade.action === "BUY" ? "success.main" : "error.main",
                                     }}
                                 >
-                                    {signal.action}
+                                    {trade.action}
                                 </TableCell>
-                                <TableCell>{signal.volume}</TableCell>
-                                <TableCell>{signal.openPrice}</TableCell>
-                                <TableCell>{signal.slPrice}</TableCell>
-                                <TableCell>{signal.tpPrice}</TableCell>
-                                <TableCell>{signal.closePrice}</TableCell>
+                                <TableCell>{trade.volume}</TableCell>
+                                <TableCell>{trade.entryPrice}</TableCell>
+                                <TableCell>{trade.slPrice}</TableCell>
+                                <TableCell>{trade.tpPrice}</TableCell>
+                                <TableCell>{trade.closePrice}</TableCell>
                                 <TableCell
                                     sx={{
-                                        color: signal.profit
+                                        color: trade.profit
                                             ? "success.main"
-                                            : signal.loss
+                                            : trade.loss
                                               ? "error.main"
                                               : "text.secondary",
                                     }}
                                 >
-                                    {(signal.profit || signal.loss || 0.0).toFixed(2)}
+                                    {(trade.profit || trade.loss || 0.0).toFixed(2)}
                                 </TableCell>
                                 <TableCell
                                     sx={{
                                         color:
-                                            signal.status === "open"
+                                            trade.status === "open"
                                                 ? "primary.main"
                                                 : "text.disabled",
                                     }}
                                 >
-                                    {signal.status}
+                                    {trade.status}
                                 </TableCell>
                                 <TableCell
                                     sx={{
                                         color:
-                                            signal.reason === "tp"
+                                            trade.reason === "tp"
                                                 ? "success.main"
-                                                : signal.reason === "sl"
+                                                : trade.reason === "sl"
                                                   ? "error.main"
                                                   : "text.disabled",
                                         fontWeight: "bold",
                                     }}
                                 >
-                                    {signal.reason?.toUpperCase()}
+                                    {trade.reason?.toUpperCase()}
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -100,4 +100,4 @@ const SignalHistory = ({ signals }) => {
     );
 };
 
-export default SignalHistory;
+export default CopyTradesHistoryTable;

@@ -18,6 +18,9 @@ import CloseIcon from "@mui/icons-material/Close";
 // react-router-dom
 import { useParams, Link as RouterLink } from "react-router-dom";
 
+//
+import GoBackButton from "../../../components/_root/Buttons/GoBackButton";
+
 // hooks
 import useAuth from "../../../hooks/useAuth";
 import useSnackbar from "../../../hooks/useSnackbar";
@@ -153,6 +156,10 @@ const UpdateProfilePage = () => {
 
     return (
         <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+            <Box sx={{ mb: 4 }}>
+                <GoBackButton label="Go back to Dashboard" destination={`/d`} />
+            </Box>
+
             {/* avatar */}
             <Box
                 component={Paper}

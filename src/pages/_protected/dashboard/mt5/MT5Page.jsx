@@ -137,16 +137,39 @@ const MT5Page = () => {
     return (
         <Container
             maxWidth="sm"
-            sx={{ m: "auto", py: 4, display: "flex", flexDirection: "column" }}
+            sx={{
+                flex: 1,
+                width: "100%",
+                m: "auto",
+                py: 4,
+                display: "flex",
+                flexDirection: "column",
+            }}
         >
             {!subscribed && (
-                <Typography variant="overline" fontWeight={700}>
-                    Subscription VIP tier required to enable copy trading services
-                </Typography>
+                <Box
+                    sx={{
+                        flex: 1,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <Typography variant="overline" fontWeight={700}>
+                        Subscription VIP tier required to enable copy trading services
+                    </Typography>
+                </Box>
             )}
 
             {subscribed && (
-                <>
+                <Box
+                    sx={{
+                        flex: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                    }}
+                >
                     <Box
                         sx={{
                             display: "flex",
@@ -226,47 +249,51 @@ const MT5Page = () => {
                         </TextField>
 
                         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                            <Button type="submit">Save</Button>
+                            <Button type="submit" variant="contained">
+                                Save
+                            </Button>
                         </Box>
                     </Box>
-                </>
-            )}
 
-            {/*  api key */}
-            {authorized && (
-                <Box
-                    sx={{
-                        flex: 1,
-                        display: "flex",
-                        flexDirection: "column",
-                        mt: 2,
-                    }}
-                >
+                    {/*  api key */}
                     {authorized && (
-                        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                                <Box>
-                                    <Typography variant="overline">API_KEY: </Typography>
-                                    <Typography variant="overline" sx={{ wordBreak: "break-all" }}>
-                                        {me?.apiKey || "{Generate API Key}"}
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                mt: 2,
+                            }}
+                        >
+                            {authorized && (
+                                <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                                    <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                                        <Box>
+                                            <Typography variant="overline">API_KEY: </Typography>
+                                            <Typography
+                                                variant="body2"
+                                                sx={{ wordBreak: "break-all" }}
+                                            >
+                                                {me?.apiKey || "{Generate API Key}"}
+                                            </Typography>
+                                        </Box>
+
+                                        <Box>
+                                            <Button
+                                                variant="contained"
+                                                size="small"
+                                                onClick={handleGenerateApiKey}
+                                            >
+                                                Generate new API_KEY
+                                            </Button>
+                                        </Box>
+                                    </Box>
+
+                                    <Typography variant="caption" color="text.disabled">
+                                        *API_KEYS are unique per admin used for connecting your
+                                        wetradefx account to third-party platforms
                                     </Typography>
                                 </Box>
-
-                                <Box>
-                                    <Button
-                                        variant="contained"
-                                        size="small"
-                                        onClick={handleGenerateApiKey}
-                                    >
-                                        Generate new API_KEY
-                                    </Button>
-                                </Box>
-                            </Box>
-
-                            <Typography variant="caption" color="text.disabled">
-                                *API_KEYS are unique per admin used for connecting your wetradefx
-                                account to third-party platforms
-                            </Typography>
+                            )}
                         </Box>
                     )}
                 </Box>

@@ -11,7 +11,12 @@ import ProtectedLayout from "../../layouts/_protected/ProtectedLayout";
 
 // dashboard
 import DashboardHomePage from "../../pages/_protected/dashboard/DashboardHomePage";
-import DashboardSettingsPage from "../../pages/_protected/dashboard/settings/DashboardSettingsPage";
+
+// signals
+import SignalsHomePage from "../../pages/_protected/signals/SignalsHomePage";
+
+// copy trades
+import CopyTradesHomePage from "../../pages/_protected/copyTrades/CopyTradesHomePage";
 
 // mt5
 import MT5Page from "../../pages/_protected/dashboard/mt5/MT5Page";
@@ -56,6 +61,14 @@ const routes = [
                             {
                                 index: true,
                                 element: <DashboardHomePage />,
+                            },
+                            {
+                                path: "signals",
+                                element: <SignalsHomePage />,
+                            },
+                            {
+                                path: "copy-trades",
+                                element: <CopyTradesHomePage />,
                             },
                             {
                                 path: "mt5",

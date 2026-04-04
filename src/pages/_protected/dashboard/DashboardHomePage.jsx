@@ -4,13 +4,11 @@ import { useEffect, useMemo } from "react";
 // mui
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
-import Paper from "@mui/material/Paper";
-import MUILink from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 
 //
 import SignalDisplay from "./components/SignalDisplay";
+import SignalHistory from "./components/SignalHistory";
 
 // hooks
 import useTitle from "../../../hooks/useTitle";
@@ -18,7 +16,6 @@ import useSignal from "../../../hooks/useSignal";
 
 // socket
 import { socket } from "../../../app/socket/socketClient";
-import SignalHistory from "./components/SignalHistory";
 
 const DashboardHomePage = () => {
     useTitle(`WeTradeFX`);
