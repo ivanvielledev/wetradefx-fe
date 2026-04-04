@@ -65,7 +65,7 @@ const SignalHistory = ({ signals }) => {
                                 <TableCell
                                     sx={{
                                         color:
-                                            signal.action === "BUY" ? "success.main" : "error.main",
+                                            signal.action === "BUY" ? "primary.main" : "error.main",
                                     }}
                                 >
                                     {signal.action}

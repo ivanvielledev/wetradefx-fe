@@ -5,6 +5,7 @@ import { useEffect, useMemo } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
+import MUILink from "@mui/material/Link";
 
 //
 import SignalDisplay from "./components/SignalDisplay";
@@ -52,8 +53,30 @@ const DashboardHomePage = () => {
     return (
         <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
             <Box sx={{ flex: 1, py: 4, display: "flex", flexDirection: "column" }}>
+                {/* social links */}
+                <Box sx={{ mb: 4, display: "flex", flexDirection: "column" }}>
+                    <Typography variant="caption">Join our community</Typography>
+
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                        <MUILink
+                            sx={{ fontSize: 12, fontWeight: 700 }}
+                            href="https://www.facebook.com/wetradefx"
+                            target="_blank"
+                        >
+                            Facebook
+                        </MUILink>
+
+                        <MUILink
+                            sx={{ fontSize: 12, fontWeight: 700 }}
+                            href="https://t.me/+BfdxmZV3QL8wZmE9"
+                            target="_blank"
+                        >
+                            Telegram
+                        </MUILink>
+                    </Box>
+                </Box>
                 {/* signals */}
-                <Box sx={{ flex: 1 }}>
+                <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
                     <Box sx={{ mb: 4 }}>
                         <Typography variant="overline" fontWeight={700}>
                             Live signals

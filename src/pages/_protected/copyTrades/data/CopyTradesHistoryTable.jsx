@@ -65,7 +65,7 @@ const CopyTradesHistoryTable = ({ trades }) => {
                                 <TableCell
                                     sx={{
                                         color:
-                                            trade.action === "BUY" ? "success.main" : "error.main",
+                                            trade.action === "BUY" ? "primary.main" : "error.main",
                                     }}
                                 >
                                     {trade.action}
