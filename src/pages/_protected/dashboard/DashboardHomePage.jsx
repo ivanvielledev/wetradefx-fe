@@ -39,11 +39,13 @@ const DashboardHomePage = () => {
         socket.on("new_mt5_signal", getSignals);
         socket.on("modified_mt5_signal", getSignals);
         socket.on("closed_mt5_signal", getSignals);
+        socket.on("modified_pnl_signal", getSignals);
 
         return () => {
             socket.off("new_mt5_signal", getSignals);
             socket.off("modified_mt5_signal", getSignals);
             socket.off("closed_mt5_signal", getSignals);
+            socket.off("modified_pnl_signal", getSignals);
         };
     }, [getSignals]);
 
@@ -67,7 +69,7 @@ const DashboardHomePage = () => {
                     </Grid>
                 </Box>
 
-                {/* signals history */}
+                {/* signals data table */}
                 <Box sx={{ flex: 1, py: 4 }}>
                     <Box sx={{ mb: 4 }}>
                         <Typography variant="overline" fontWeight={700}>

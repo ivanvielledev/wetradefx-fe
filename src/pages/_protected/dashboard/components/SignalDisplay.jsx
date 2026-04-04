@@ -41,7 +41,15 @@ const SignalDisplay = ({ signal }) => {
                                             </Typography>
                                         </Box>
 
-                                        <Box sx={{ flex: 1, textAlign: "right" }}>
+                                        <Box
+                                            sx={{
+                                                flex: 1,
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                alignItems: "flex-end",
+                                            }}
+                                        >
+                                            {/* action (order_type) */}
                                             <Typography
                                                 variant="h6"
                                                 fontWeight={600}
@@ -50,6 +58,20 @@ const SignalDisplay = ({ signal }) => {
                                                 }
                                             >
                                                 {signal.action}
+                                            </Typography>
+
+                                            {/* running PnL */}
+                                            <Typography
+                                                variant="overline"
+                                                sx={{
+                                                    color: signal.profit
+                                                        ? "success.main"
+                                                        : signal.loss
+                                                          ? "error.main"
+                                                          : "text.secondary",
+                                                }}
+                                            >
+                                                {(signal.profit || signal.loss || 0.0).toFixed(2)}
                                             </Typography>
                                         </Box>
                                     </Box>

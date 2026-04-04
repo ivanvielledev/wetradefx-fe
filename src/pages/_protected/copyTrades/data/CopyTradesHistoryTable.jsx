@@ -1,3 +1,6 @@
+// react
+import { useState } from "react";
+
 // mui
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -6,11 +9,26 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import TablePagination from "@mui/material/TablePagination";
 
 // utils
 import { formatDate } from "../../../../utils/formatDate";
 
 const CopyTradesHistoryTable = ({ trades }) => {
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    const handleChangePage = (e, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = e => {
+        setRowsPerPage(parseInt(e.target.value, 10));
+        setPage(0);
+    };
+
+    const visibleTrades = trades.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
     return (
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
             <TableContainer>
@@ -35,8 +53,8 @@ const CopyTradesHistoryTable = ({ trades }) => {
 
                     {/* body */}
                     <TableBody>
-                        {trades.map(trade => (
-                            <TableRow key={trade._id}>
+                        {visibleTrades.map(trade => (
+                            <TableRow key={trade._id} hover>
                                 {/* created at */}
                                 <TableCell sx={{ minWidth: 180 }}>
                                     {formatDate(trade.createdAt)}
@@ -96,6 +114,17 @@ const CopyTradesHistoryTable = ({ trades }) => {
                     </TableBody>
                 </Table>
             </TableContainer>
+
+            {/* pagination */}
+            <TablePagination
+                rowsPerPageOptions={[5, 10]}
+                component="div"
+                count={trades.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
         </Paper>
     );
 };

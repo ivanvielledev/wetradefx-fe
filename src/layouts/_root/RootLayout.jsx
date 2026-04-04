@@ -15,13 +15,34 @@ import useAuth from "../../hooks/useAuth";
 import { socket } from "../../app/socket/socketClient";
 
 const RootLayout = () => {
-    const { userLoading, me } = useAuth();
+    const { userLoading, me, getMe, logout } = useAuth();
 
     useEffect(() => {
-        if (me) socket.connect();
+        if (!me) return;
 
-        return () => socket.disconnect();
-    }, [me]);
+        socket.connect();
+
+        socket.on("connect_error", async err => {
+            if (err.message === "TOKEN_EXPIRED") {
+                console.log("Socket token expired. Refreshing...");
+
+                try {
+                    await getMe();
+
+                    // manually connect socket again after refreshing token
+                    socket.connect();
+                } catch (err) {
+                    console.error("Session expired. Logging out...");
+                    await logout();
+                }
+            }
+        });
+
+        return () => {
+            socket.off("connect_error");
+            socket.disconnect();
+        };
+    }, [me, getMe]);
 
     // loader
     if (userLoading) return <RootLoader />;

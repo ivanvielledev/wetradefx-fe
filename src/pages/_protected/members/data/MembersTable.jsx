@@ -1,3 +1,6 @@
+// react
+import { useState } from "react";
+
 // mui
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
@@ -11,6 +14,7 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Avatar from "@mui/material/Avatar";
 import MUILink from "@mui/material/Link";
+import TablePagination from "@mui/material/TablePagination";
 
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
@@ -37,6 +41,19 @@ import { formatDate } from "../../../../utils/formatDate";
 const MembersTable = ({ members }) => {
     const { me, updateUserStatus, updateUserGlobalRole, updateUserSubscription } = useAuth();
     const { setSnackbar } = useSnackbar();
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    const handleChangePage = (e, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = e => {
+        setRowsPerPage(parseInt(e.target.value, 10));
+        setPage(0);
+    };
+
+    const visibleMembers = members.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
     // status
     const handleUpdateUserStatus = async (e, userId, status) => {
@@ -127,8 +144,8 @@ const MembersTable = ({ members }) => {
 
                     {/* body */}
                     <TableBody>
-                        {members.map(member => (
-                            <TableRow key={member?._id}>
+                        {visibleMembers.map(member => (
+                            <TableRow key={member?._id} hover>
                                 {/* created at */}
                                 <TableCell
                                     component="th"
@@ -578,6 +595,17 @@ const MembersTable = ({ members }) => {
                     </TableBody>
                 </Table>
             </TableContainer>
+
+            {/* pagination */}
+            <TablePagination
+                rowsPerPageOptions={[5, 10]}
+                component="div"
+                count={members.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
         </Paper>
     );
 };
