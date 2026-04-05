@@ -22,6 +22,7 @@ import {
     registerByEmailApi,
     logoutApi,
     forgotPasswordApi,
+    resetPasswordApi,
 } from "../app/api/authApi";
 
 const AuthContext = createContext();
@@ -287,6 +288,19 @@ const AuthProvider = ({ children }) => {
         }
     };
 
+    // reset password
+    const resetPassword = async ({ resetToken, password }) => {
+        try {
+            const result = await resetPasswordApi({ resetToken, password });
+
+            return result;
+        } catch (err) {
+            throw err.message;
+        } finally {
+            setUserLoading(false);
+        }
+    };
+
     return (
         <AuthContext.Provider
             value={{
@@ -309,6 +323,7 @@ const AuthProvider = ({ children }) => {
                 updateUserGlobalRole,
                 updateUserSubscription,
                 forgotPassword,
+                resetPassword,
             }}
         >
             {children}

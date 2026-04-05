@@ -8,6 +8,7 @@ import RegisterPage from "../../pages/_public/register/RegisterPage";
 import TermsOfServicePage from "../../pages/_public/termsOfService/TermsOfServicePage";
 import PrivacyPolicyPage from "../../pages/_public/privacyPolicy/PrivacyPolicyPage";
 import ForgotPasswordPage from "../../pages/_public/forgotPassword/ForgotPasswordPage";
+import ResetPasswordPage from "../../pages/_public/forgotPassword/ResetPasswordPage";
 
 // _protected
 import ProtectedLayout from "../../layouts/_protected/ProtectedLayout";
@@ -66,6 +67,10 @@ const routes = [
                     {
                         path: "forgot-password",
                         element: <ForgotPasswordPage />,
+                    },
+                    {
+                        path: "reset-password/:resetToken",
+                        element: <ResetPasswordPage />,
                     },
                     {
                         path: "*",

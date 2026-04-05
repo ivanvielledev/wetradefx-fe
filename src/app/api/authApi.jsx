@@ -54,4 +54,18 @@ const forgotPasswordApi = async ({ email }) => {
     return data;
 };
 
-export { loginByEmailApi, registerByEmailApi, logoutApi, forgotPasswordApi };
+// reset password
+const resetPasswordApi = async ({ resetToken, password }) => {
+    const response = await fetch(`${authApiUrl}/reset-password/${resetToken}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password }),
+    });
+
+    const data = await response.json();
+    return data;
+};
+
+export { loginByEmailApi, registerByEmailApi, logoutApi, forgotPasswordApi, resetPasswordApi };
