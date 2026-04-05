@@ -17,7 +17,12 @@ import {
 } from "../app/api/usersApi";
 
 // auth api
-import { loginByEmailApi, registerByEmailApi, logoutApi } from "../app/api/authApi";
+import {
+    loginByEmailApi,
+    registerByEmailApi,
+    logoutApi,
+    forgotPasswordApi,
+} from "../app/api/authApi";
 
 const AuthContext = createContext();
 
@@ -269,6 +274,19 @@ const AuthProvider = ({ children }) => {
         }
     };
 
+    // fogot password
+    const forgotPassword = async ({ email }) => {
+        try {
+            const result = await forgotPasswordApi({ email });
+
+            return result;
+        } catch (err) {
+            throw err.message;
+        } finally {
+            setUserLoading(false);
+        }
+    };
+
     return (
         <AuthContext.Provider
             value={{
@@ -290,6 +308,7 @@ const AuthProvider = ({ children }) => {
                 updateUserStatus,
                 updateUserGlobalRole,
                 updateUserSubscription,
+                forgotPassword,
             }}
         >
             {children}

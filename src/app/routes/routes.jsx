@@ -5,6 +5,9 @@ import RootLayout from "../../layouts/_root/RootLayout";
 import PublicLayout from "../../layouts/_public/PublicLayout";
 import LoginPage from "../../pages/_public/login/LoginPage";
 import RegisterPage from "../../pages/_public/register/RegisterPage";
+import TermsOfServicePage from "../../pages/_public/termsOfService/TermsOfServicePage";
+import PrivacyPolicyPage from "../../pages/_public/privacyPolicy/PrivacyPolicyPage";
+import ForgotPasswordPage from "../../pages/_public/forgotPassword/ForgotPasswordPage";
 
 // _protected
 import ProtectedLayout from "../../layouts/_protected/ProtectedLayout";
@@ -47,6 +50,18 @@ const routes = [
                     {
                         path: "register",
                         element: <RegisterPage />,
+                    },
+                    {
+                        path: "terms-of-service",
+                        element: <TermsOfServicePage />,
+                    },
+                    {
+                        path: "privacy-policy",
+                        element: <PrivacyPolicyPage />,
+                    },
+                    {
+                        path: "forgot-password",
+                        element: <ForgotPasswordPage />,
                     },
                 ],
             },

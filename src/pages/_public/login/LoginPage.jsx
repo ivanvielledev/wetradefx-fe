@@ -39,7 +39,12 @@ const LoginPage = () => {
             <LoginForm />
 
             <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                <Button size="small" sx={{ textTransform: "none" }}>
+                <Button
+                    component={RouterLink}
+                    to="forgot-password"
+                    size="small"
+                    sx={{ textTransform: "none" }}
+                >
                     Forgot password?
                 </Button>
             </Box>
