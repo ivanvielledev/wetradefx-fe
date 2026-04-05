@@ -53,64 +53,62 @@ const SignalHistory = ({ signals }) => {
 
                     {/* body */}
                     <TableBody>
-                        {visibleSignals.map(signal => (
-                            <TableRow key={signal._id} hover>
-                                {/* created at */}
-                                <TableCell sx={{ minWidth: 180 }}>
-                                    {formatDate(signal.createdAt)}
-                                </TableCell>
-                                {/* ticket */}
-                                <TableCell>{signal.ticket}</TableCell>
-                                <TableCell>{signal.symbol}</TableCell>
-                                <TableCell
-                                    sx={{
-                                        color:
-                                            signal.action === "BUY" ? "primary.main" : "error.main",
-                                    }}
-                                >
-                                    {signal.action}
-                                </TableCell>
-                                <TableCell>{signal.volume}</TableCell>
-                                <TableCell>{signal.openPrice}</TableCell>
-                                <TableCell>{signal.slPrice}</TableCell>
-                                <TableCell>{signal.tpPrice}</TableCell>
-                                <TableCell>{signal.closePrice}</TableCell>
-                                <TableCell
-                                    sx={{
-                                        color: signal.profit
-                                            ? "success.main"
-                                            : signal.loss
-                                              ? "error.main"
-                                              : "text.secondary",
-                                    }}
-                                >
-                                    {(signal.profit || signal.loss || 0.0).toFixed(2)}
-                                </TableCell>
-                                <TableCell
-                                    sx={{
-                                        color:
-                                            signal.status === "open"
-                                                ? "primary.main"
-                                                : "text.disabled",
-                                    }}
-                                >
-                                    {signal.status}
-                                </TableCell>
-                                <TableCell
-                                    sx={{
-                                        color:
-                                            signal.reason === "tp"
-                                                ? "success.main"
-                                                : signal.reason === "sl"
-                                                  ? "error.main"
-                                                  : "text.disabled",
-                                        fontWeight: "bold",
-                                    }}
-                                >
-                                    {signal.reason?.toUpperCase()}
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                        {visibleSignals.map(signal => {
+                            const pnlValue = signal.profit || signal.loss || 0;
+                            const sign = pnlValue > 0 ? "+" : "";
+                            const pnlColor =
+                                pnlValue > 0
+                                    ? "success.main"
+                                    : pnlValue < 0
+                                      ? "error.main"
+                                      : "text.secondary";
+
+                            const statusColor =
+                                signal.status === "open" ? "primary.main" : "text.disabled";
+
+                            const reasonColor =
+                                signal.reason === "tp"
+                                    ? "success.main"
+                                    : signal.reason === "sl"
+                                      ? "error.main"
+                                      : "text.disabled";
+
+                            return (
+                                <TableRow key={signal._id} hover>
+                                    {/* created at */}
+                                    <TableCell sx={{ minWidth: 180 }}>
+                                        {formatDate(signal.createdAt)}
+                                    </TableCell>
+                                    {/* ticket */}
+                                    <TableCell>{signal.ticket}</TableCell>
+                                    <TableCell>{signal.symbol}</TableCell>
+                                    <TableCell
+                                        sx={{
+                                            color:
+                                                signal.action === "BUY"
+                                                    ? "primary.main"
+                                                    : "error.main",
+                                        }}
+                                    >
+                                        {signal.action}
+                                    </TableCell>
+                                    <TableCell>{signal.volume}</TableCell>
+                                    <TableCell>{signal.openPrice}</TableCell>
+                                    <TableCell>{signal.slPrice}</TableCell>
+                                    <TableCell>{signal.tpPrice}</TableCell>
+                                    <TableCell>{signal.closePrice}</TableCell>
+                                    <TableCell sx={{ color: pnlColor }}>
+                                        {(signal.profit || signal.loss || 0.0).toFixed(2)}
+                                    </TableCell>
+                                    <TableCell sx={{ color: statusColor }}>
+                                        {signal.status}
+                                    </TableCell>
+                                    <TableCell sx={{ color: reasonColor, fontWeight: "bold" }}>
+                                        {signal.reason?.toUpperCase()}
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        })}
                     </TableBody>
                 </Table>
             </TableContainer>

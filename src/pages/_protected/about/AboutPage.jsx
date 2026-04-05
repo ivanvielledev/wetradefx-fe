@@ -100,8 +100,11 @@ const AboutPage = () => {
                             </Typography>
                         </Box>
                         <Box sx={{ flex: 1 }}>
-                            <Typography variant="overline" color="success">
-                                Telegram: https://t.me
+                            <Typography variant="overline" color="primary">
+                                Telegram:{" "}
+                                <MUILink href="https://t.me/+BfdxmZV3QL8wZmE9" target="_blank">
+                                    https://t.me/+BfdxmZV3QL8wZmE9
+                                </MUILink>
                             </Typography>
                         </Box>
                         <Box sx={{ flex: 1 }}>

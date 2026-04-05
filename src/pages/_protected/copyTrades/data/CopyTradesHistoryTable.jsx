@@ -53,64 +53,63 @@ const CopyTradesHistoryTable = ({ trades }) => {
 
                     {/* body */}
                     <TableBody>
-                        {visibleTrades.map(trade => (
-                            <TableRow key={trade._id} hover>
-                                {/* created at */}
-                                <TableCell sx={{ minWidth: 180 }}>
-                                    {formatDate(trade.createdAt)}
-                                </TableCell>
-                                {/* ticket */}
-                                <TableCell>{trade.ticket}</TableCell>
-                                <TableCell>{trade.symbol}</TableCell>
-                                <TableCell
-                                    sx={{
-                                        color:
-                                            trade.action === "BUY" ? "primary.main" : "error.main",
-                                    }}
-                                >
-                                    {trade.action}
-                                </TableCell>
-                                <TableCell>{trade.volume}</TableCell>
-                                <TableCell>{trade.entryPrice}</TableCell>
-                                <TableCell>{trade.slPrice}</TableCell>
-                                <TableCell>{trade.tpPrice}</TableCell>
-                                <TableCell>{trade.closePrice}</TableCell>
-                                <TableCell
-                                    sx={{
-                                        color: trade.profit
-                                            ? "success.main"
-                                            : trade.loss
-                                              ? "error.main"
-                                              : "text.secondary",
-                                    }}
-                                >
-                                    {(trade.profit || trade.loss || 0.0).toFixed(2)}
-                                </TableCell>
-                                <TableCell
-                                    sx={{
-                                        color:
-                                            trade.status === "open"
-                                                ? "primary.main"
-                                                : "text.disabled",
-                                    }}
-                                >
-                                    {trade.status}
-                                </TableCell>
-                                <TableCell
-                                    sx={{
-                                        color:
-                                            trade.reason === "tp"
-                                                ? "success.main"
-                                                : trade.reason === "sl"
-                                                  ? "error.main"
-                                                  : "text.disabled",
-                                        fontWeight: "bold",
-                                    }}
-                                >
-                                    {trade.reason?.toUpperCase()}
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                        {visibleTrades.map(trade => {
+                            const pnlValue = trade.profit || trade.loss || 0;
+                            const sign = pnlValue > 0 ? "+" : "";
+                            const pnlColor =
+                                pnlValue > 0
+                                    ? "success.main"
+                                    : pnlValue < 0
+                                      ? "error.main"
+                                      : "text.secondary";
+
+                            const statusColor =
+                                trade.status === "open" ? "primary.main" : "text.disabled";
+
+                            const reasonColor =
+                                trade.reason === "tp"
+                                    ? "success.main"
+                                    : trade.reason === "sl"
+                                      ? "error.main"
+                                      : "text.disabled";
+
+                            return (
+                                <TableRow key={trade._id} hover>
+                                    {/* created at */}
+                                    <TableCell sx={{ minWidth: 180 }}>
+                                        {formatDate(trade.createdAt)}
+                                    </TableCell>
+                                    {/* ticket */}
+                                    <TableCell>{trade.ticket}</TableCell>
+                                    <TableCell>{trade.symbol}</TableCell>
+                                    <TableCell
+                                        sx={{
+                                            color:
+                                                trade.action === "BUY"
+                                                    ? "primary.main"
+                                                    : "error.main",
+                                        }}
+                                    >
+                                        {trade.action}
+                                    </TableCell>
+                                    <TableCell>{trade.volume}</TableCell>
+                                    <TableCell>{trade.entryPrice}</TableCell>
+                                    <TableCell>{trade.slPrice}</TableCell>
+                                    <TableCell>{trade.tpPrice}</TableCell>
+                                    <TableCell>{trade.closePrice}</TableCell>
+                                    <TableCell sx={{ color: pnlColor }}>
+                                        {sign}
+                                        {pnlValue.toFixed(2)}
+                                    </TableCell>
+                                    <TableCell sx={{ color: statusColor }}>
+                                        {trade.status}
+                                    </TableCell>
+                                    <TableCell sx={{ color: reasonColor, fontWeight: "bold" }}>
+                                        {trade.reason?.toUpperCase()}
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        })}
                     </TableBody>
                 </Table>
             </TableContainer>
