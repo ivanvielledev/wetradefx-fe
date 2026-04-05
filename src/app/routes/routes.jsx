@@ -34,6 +34,10 @@ import UpdateProfilePage from "../../pages/_protected/profile/UpdateProfilePage"
 // about
 import AboutPage from "../../pages/_protected/about/AboutPage";
 
+// not found page
+import GuestNotFound from "../../pages/_public/NotFoundPage";
+import AuthNotFound from "../../pages/_protected/NotFoundPage";
+
 const routes = [
     {
         path: "/",
@@ -62,6 +66,10 @@ const routes = [
                     {
                         path: "forgot-password",
                         element: <ForgotPasswordPage />,
+                    },
+                    {
+                        path: "*",
+                        element: <GuestNotFound />,
                     },
                 ],
             },
@@ -97,6 +105,10 @@ const routes = [
                                 path: "about",
                                 element: <AboutPage />,
                             },
+                            {
+                                path: "*",
+                                element: <AuthNotFound />,
+                            },
                         ],
                     },
                     // user
@@ -110,6 +122,10 @@ const routes = [
                             {
                                 path: ":userId/update",
                                 element: <UpdateProfilePage />,
+                            },
+                            {
+                                path: "*",
+                                element: <AuthNotFound />,
                             },
                         ],
                     },
