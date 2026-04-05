@@ -27,8 +27,6 @@ const ResetPasswordPage = () => {
     const handleResetPassword = async e => {
         e.preventDefault();
 
-        console.log(resetToken, password);
-
         if (password !== confirmPassword) {
             return setSnackbar({
                 open: true,
