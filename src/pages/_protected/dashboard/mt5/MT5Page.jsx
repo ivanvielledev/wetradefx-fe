@@ -12,9 +12,10 @@ import MenuItem from "@mui/material/MenuItem";
 
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 
-// react-router-dom
-import { useParams } from "react-router-dom";
+//
+import GoBackButton from "../../../../components/_root/Buttons/GoBackButton";
 
 // hooks
 import useAuth from "../../../../hooks/useAuth";
@@ -44,7 +45,8 @@ const SERVERS = [
 ];
 
 const MT5Page = () => {
-    const { me, getMe, mt5UpdateAccount, generateApiKey } = useAuth();
+    const { me, updateUserSubscription, getMe, mt5UpdateAccount, generateApiKey, userLoading } =
+        useAuth();
     const { setSnackbar } = useSnackbar();
 
     const authorized = me?.globalRole === "superadmin" || me?.globalRole === "admin";
@@ -104,6 +106,31 @@ const MT5Page = () => {
         await getMe();
     };
 
+    // subscriptions
+    const handleUpdateUserSubscription = async (e, userId, plan, status) => {
+        e.preventDefault();
+
+        const result = await updateUserSubscription({ userId, plan, status });
+
+        if (!result?.success) {
+            setSnackbar({
+                open: true,
+                message: result?.error,
+                severity: "error",
+            });
+
+            return;
+        }
+
+        setSnackbar({
+            open: true,
+            message: result?.message,
+            severity: "success",
+        });
+
+        await getMe();
+    };
+
     // admin generate api key
     const handleGenerateApiKey = async e => {
         e.preventDefault();
@@ -135,136 +162,165 @@ const MT5Page = () => {
         me?.globalRole === "admin";
 
     return (
-        <Container
-            maxWidth="sm"
-            sx={{
-                flex: 1,
-                width: "100%",
-                m: "auto",
-                py: 4,
-                display: "flex",
-                flexDirection: "column",
-            }}
-        >
-            {!subscribed && (
-                <Box
-                    sx={{
-                        flex: 1,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                    }}
-                >
-                    <Typography variant="overline" fontWeight={700}>
-                        Subscription VIP tier required to enable copy trading services
-                    </Typography>
-                </Box>
-            )}
+        <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+            <Box sx={{ mb: 4 }}>
+                <GoBackButton label="Go back to Dashboard" destination={`/d`} />
+            </Box>
 
-            {subscribed && (
-                <Box
-                    sx={{
-                        flex: 1,
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                    }}
-                >
+            <Container
+                maxWidth="sm"
+                sx={{
+                    flex: 1,
+                    width: "100%",
+                    m: "auto",
+                    py: 4,
+                    display: "flex",
+                    flexDirection: "column",
+                }}
+            >
+                {!subscribed && (
                     <Box
                         sx={{
+                            flex: 1,
                             display: "flex",
                             flexDirection: "column",
-                            alignItems: "center",
                             justifyContent: "center",
+                            alignItems: "center",
                         }}
                     >
-                        <Typography variant="h6">MetaTrader5 Account</Typography>
-                        <Typography variant="caption" color="text.secondary">
-                            Connect your MT5 account to enable copy trading
+                        <Typography variant="overline" fontWeight={700}>
+                            Subscription VIP tier required to enable copy trading services
                         </Typography>
-                        <Typography variant="caption" color="text.secondary">
-                            *All accounts are stored and heavily encrypted for the safety of the
-                            users
-                        </Typography>
-                    </Box>
 
-                    <Box
-                        component="form"
-                        onSubmit={handleUpdate}
-                        sx={{ mt: 2, display: "flex", flexDirection: "column", gap: 2 }}
-                    >
-                        <TextField
-                            type="text"
-                            fullWidth
-                            autoComplete="off"
-                            label="Login"
-                            value={mt5.login}
-                            onChange={e => {
-                                const val = e.target.value;
-                                // Only allow digits (prevents letters/symbols)
-                                if (val === "" || /^[0-9\b]+$/.test(val)) {
-                                    setMt5(prev => ({ ...prev, login: Number(val) }));
+                        <Box sx={{ mt: 4 }}>
+                            <Button
+                                variant="contained"
+                                onClick={e =>
+                                    handleUpdateUserSubscription(e, me?._id, "free", "pending")
                                 }
-                            }}
-                            helperText="MT5 Login e.g: 24648233"
-                        />
-
-                        <TextField
-                            type={showPassword ? "text" : "password"}
-                            fullWidth
-                            autoComplete="off"
-                            label="Password"
-                            value={mt5.password}
-                            onChange={e => setMt5(prev => ({ ...prev, password: e.target.value }))}
-                            slotProps={{
-                                input: {
-                                    endAdornment: (
-                                        <IconButton onClick={toggleShowPassword} edge="end">
-                                            {showPassword ? (
-                                                <VisibilityOutlinedIcon fontSize="small" />
-                                            ) : (
-                                                <VisibilityOffOutlinedIcon fontSize="small" />
-                                            )}
-                                        </IconButton>
-                                    ),
-                                },
-                            }}
-                        />
-
-                        <TextField
-                            select
-                            label="Server"
-                            value={mt5.server}
-                            onChange={e => setMt5(prev => ({ ...prev, server: e.target.value }))}
-                        >
-                            <MenuItem value="">
-                                <em>Select a server</em>
-                            </MenuItem>
-
-                            {SERVERS.map((server, index) => (
-                                <MenuItem key={index} value={server}>
-                                    {server}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-
-                        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                            <Button type="submit" variant="contained">
-                                Save
+                                loading={userLoading}
+                                startIcon={
+                                    me?.subscription?.status === "pending" ? (
+                                        <CheckOutlinedIcon />
+                                    ) : undefined
+                                }
+                                disabled={me?.subscription?.status === "pending"}
+                            >
+                                {me?.subscription?.status === "pending"
+                                    ? "Applied for vip subscription"
+                                    : "Apply for vip subscription"}
                             </Button>
                         </Box>
                     </Box>
+                )}
 
-                    {/*  api key */}
-                    {authorized && (
+                {subscribed && (
+                    <Box
+                        sx={{
+                            flex: 1,
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                        }}
+                    >
                         <Box
                             sx={{
                                 display: "flex",
                                 flexDirection: "column",
-                                mt: 2,
+                                alignItems: "center",
+                                justifyContent: "center",
                             }}
                         >
-                            {authorized && (
+                            <Typography variant="h6">MetaTrader5 Account</Typography>
+                            <Typography variant="caption" color="text.secondary">
+                                Connect your MT5 account to enable copy trading
+                            </Typography>
+                            <Typography variant="caption" color="text.secondary">
+                                *All accounts are stored and heavily encrypted for the safety of the
+                                users
+                            </Typography>
+                        </Box>
+
+                        <Box
+                            component="form"
+                            onSubmit={handleUpdate}
+                            sx={{ mt: 2, display: "flex", flexDirection: "column", gap: 2 }}
+                        >
+                            <TextField
+                                type="text"
+                                fullWidth
+                                autoComplete="off"
+                                label="Login"
+                                value={mt5.login}
+                                onChange={e => {
+                                    const val = e.target.value;
+                                    // Only allow digits (prevents letters/symbols)
+                                    if (val === "" || /^[0-9\b]+$/.test(val)) {
+                                        setMt5(prev => ({ ...prev, login: Number(val) }));
+                                    }
+                                }}
+                                helperText="MT5 Login e.g: 24648233"
+                            />
+
+                            <TextField
+                                type={showPassword ? "text" : "password"}
+                                fullWidth
+                                autoComplete="off"
+                                label="Password"
+                                value={mt5.password}
+                                onChange={e =>
+                                    setMt5(prev => ({ ...prev, password: e.target.value }))
+                                }
+                                slotProps={{
+                                    input: {
+                                        endAdornment: (
+                                            <IconButton onClick={toggleShowPassword} edge="end">
+                                                {showPassword ? (
+                                                    <VisibilityOutlinedIcon fontSize="small" />
+                                                ) : (
+                                                    <VisibilityOffOutlinedIcon fontSize="small" />
+                                                )}
+                                            </IconButton>
+                                        ),
+                                    },
+                                }}
+                            />
+
+                            <TextField
+                                select
+                                label="Server"
+                                value={mt5.server}
+                                onChange={e =>
+                                    setMt5(prev => ({ ...prev, server: e.target.value }))
+                                }
+                            >
+                                <MenuItem value="">
+                                    <em>Select a server</em>
+                                </MenuItem>
+
+                                {SERVERS.map((server, index) => (
+                                    <MenuItem key={index} value={server}>
+                                        {server}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+
+                            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                                <Button type="submit" variant="contained">
+                                    Save
+                                </Button>
+                            </Box>
+                        </Box>
+
+                        {/*  api key */}
+                        {authorized && (
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    mt: 2,
+                                }}
+                            >
                                 <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                                     <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                                         <Box>
@@ -293,12 +349,12 @@ const MT5Page = () => {
                                         wetradefx account to third-party platforms
                                     </Typography>
                                 </Box>
-                            )}
-                        </Box>
-                    )}
-                </Box>
-            )}
-        </Container>
+                            </Box>
+                        )}
+                    </Box>
+                )}
+            </Container>
+        </Box>
     );
 };
 

@@ -4,6 +4,9 @@ import { useEffect } from "react";
 // mui
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+
+import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 
 //
 import GoBackButton from "../../../components/_root/Buttons/GoBackButton";
@@ -14,13 +17,15 @@ import CopyTradesHistoryTable from "./data/CopyTradesHistoryTable";
 // hooks
 import useAuth from "../../../hooks/useAuth";
 import useTrade from "../../../hooks/useTrade";
+import useSnackbar from "../../../hooks/useSnackbar";
 
 // sockets
 import { socket } from "../../../app/socket/socketClient";
 
 const CopyTradesHomePage = () => {
-    const { me } = useAuth();
+    const { me, userLoading, updateUserSubscription, getMe } = useAuth();
     const { tradeHistory, getTradeHistory } = useTrade();
+    const { setSnackbar } = useSnackbar();
 
     const vip = me?.subscription?.plan === "vip" && me?.subscription?.status === "active";
 
@@ -40,6 +45,31 @@ const CopyTradesHomePage = () => {
             socket.off("closed_mt5_signal", getTradeHistory);
         };
     }, [getTradeHistory]);
+
+    // subscriptions
+    const handleUpdateUserSubscription = async (e, userId, plan, status) => {
+        e.preventDefault();
+
+        const result = await updateUserSubscription({ userId, plan, status });
+
+        if (!result?.success) {
+            setSnackbar({
+                open: true,
+                message: result?.error,
+                severity: "error",
+            });
+
+            return;
+        }
+
+        setSnackbar({
+            open: true,
+            message: result?.message,
+            severity: "success",
+        });
+
+        await getMe();
+    };
 
     return (
         <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
@@ -64,6 +94,7 @@ const CopyTradesHomePage = () => {
                     sx={{
                         flex: 1,
                         display: "flex",
+                        flexDirection: "column",
                         justifyContent: "center",
                         alignItems: "center",
                     }}
@@ -71,6 +102,26 @@ const CopyTradesHomePage = () => {
                     <Typography variant="overline" fontWeight={700}>
                         Subscription VIP tier required to enable copy trading services
                     </Typography>
+
+                    <Box sx={{ mt: 4 }}>
+                        <Button
+                            variant="contained"
+                            onClick={e =>
+                                handleUpdateUserSubscription(e, me?._id, "free", "pending")
+                            }
+                            loading={userLoading}
+                            startIcon={
+                                me?.subscription?.status === "pending" ? (
+                                    <CheckOutlinedIcon />
+                                ) : undefined
+                            }
+                            disabled={me?.subscription?.status === "pending"}
+                        >
+                            {me?.subscription?.status === "pending"
+                                ? "Applied for vip subscription"
+                                : "Apply for vip subscription"}
+                        </Button>
+                    </Box>
                 </Box>
             )}
         </Box>

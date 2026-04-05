@@ -44,6 +44,7 @@ const MembersTable = ({ members }) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
+    // pagination
     const handleChangePage = (e, newPage) => {
         setPage(newPage);
     };
@@ -265,10 +266,10 @@ const MembersTable = ({ members }) => {
                                         <Box sx={{ display: "flex", alignItems: "center" }}>
                                             {/* create subscription */}
                                             {member?.subscription?.plan === "free" &&
-                                                member?.subscription?.status === "new" && (
+                                                member?.status === "active" && (
                                                     <Box sx={{ flexShrink: 1 }}>
                                                         <Tooltip
-                                                            title="Approve subscription"
+                                                            title="Create subscription"
                                                             placement="bottom"
                                                         >
                                                             <IconButton
@@ -284,7 +285,7 @@ const MembersTable = ({ members }) => {
                                                                     )
                                                                 }
                                                             >
-                                                                <GradeOutlinedIcon fontSize="small" />
+                                                                <AddCardOutlinedIcon fontSize="small" />
                                                             </IconButton>
                                                         </Tooltip>
                                                     </Box>
