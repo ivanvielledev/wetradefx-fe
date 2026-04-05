@@ -31,6 +31,16 @@ const MobileSideBar = ({ me, drawerOpen, drawerWidth, toggleDrawerOpen }) => {
             icon: <DashboardOutlinedIcon fontSize="small" />,
             to: `/d`,
         },
+        ...(!admin
+            ? [
+                  {
+                      id: 2,
+                      title: "Signals",
+                      icon: <SignalWifi4BarOutlinedIcon fontSize="small" />,
+                      to: "/d/signals",
+                  },
+              ]
+            : []),
         {
             id: 1,
             title: admin ? "Signals" : "Copy Trades",
