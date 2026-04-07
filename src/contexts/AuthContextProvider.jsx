@@ -209,13 +209,14 @@ const AuthProvider = ({ children }) => {
     };
 
     // mt5 account
-    const mt5UpdateAccount = async ({ userId, login, password, server }) => {
+    const mt5UpdateAccount = async ({ userId, login, password, server, riskPercentage }) => {
         try {
             const result = await mt5UpdateAccountApi({
                 userId,
                 login,
                 password,
                 server,
+                riskPercentage,
             });
 
             return result;

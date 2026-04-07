@@ -107,14 +107,14 @@ const generateApiKeyApi = async ({ userId }) => {
 };
 
 // mt5 account validate
-const mt5UpdateAccountApi = async ({ userId, login, password, server }) => {
+const mt5UpdateAccountApi = async ({ userId, login, password, server, riskPercentage }) => {
     const response = await fetch(`${usersApiUrl}/${userId}/mt5`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify({ login, password, server }),
+        body: JSON.stringify({ login, password, server, riskPercentage }),
     });
 
     const data = await response.json();

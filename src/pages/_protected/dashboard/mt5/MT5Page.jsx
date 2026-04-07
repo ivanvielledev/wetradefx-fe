@@ -56,6 +56,7 @@ const MT5Page = () => {
         login: "",
         password: "",
         server: "",
+        riskPercentage: 1,
     });
 
     const [showPassword, setShowPassword] = useState(false);
@@ -70,6 +71,7 @@ const MT5Page = () => {
                 login: mt5Account.login || "",
                 password: mt5Account.password || "",
                 server: mt5Account.server || "",
+                riskPercentage: mt5Account.riskPercentage || 1,
             });
         }
     }, [me]);
@@ -78,13 +80,14 @@ const MT5Page = () => {
     const handleUpdate = async e => {
         e.preventDefault();
 
-        const { userId, login, password, server } = mt5;
+        const { userId, login, password, server, riskPercentage } = mt5;
 
         const result = await mt5UpdateAccount({
-            userId: userId,
-            login: login,
-            password: password,
-            server: server,
+            userId,
+            login,
+            password,
+            server,
+            riskPercentage,
         });
 
         if (!result?.success) {
@@ -304,6 +307,17 @@ const MT5Page = () => {
                                     </MenuItem>
                                 ))}
                             </TextField>
+
+                            <TextField
+                                type="number"
+                                fullWidth
+                                autoComplete="off"
+                                label="Risk percentage"
+                                value={mt5.riskPercentage}
+                                onChange={e =>
+                                    setMt5(prev => ({ ...prev, riskPercentage: e.target.value }))
+                                }
+                            />
 
                             <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                                 <Button type="submit" variant="contained">

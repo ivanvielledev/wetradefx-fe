@@ -4,6 +4,7 @@ const authApiUrl = `${baseApiUrl}/auth`;
 
 // login by email
 const loginByEmailApi = async ({ username, password }) => {
+    console.log(baseApiUrl);
     const response = await fetch(`${authApiUrl}/login-email`, {
         method: "POST",
         headers: {
