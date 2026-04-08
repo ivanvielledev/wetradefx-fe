@@ -136,7 +136,7 @@ const MembersTable = ({ members }) => {
                         <TableRow>
                             <TableCell>Date Registered</TableCell>
                             <TableCell>Username</TableCell>
-                            <TableCell>Mobile no.</TableCell>
+                            {fullAccess && <TableCell>Mobile no.</TableCell>}
                             <TableCell>Role</TableCell>
                             <TableCell>Status</TableCell>
                             <TableCell>Actions</TableCell>
@@ -225,16 +225,18 @@ const MembersTable = ({ members }) => {
                                 </TableCell>
 
                                 {/* mobileNo */}
-                                <TableCell
-                                    sx={{
-                                        maxWidth: 150,
-                                        overflow: "hidden",
-                                        textOverflow: "ellipsis",
-                                        whiteSpace: "nowrap",
-                                    }}
-                                >
-                                    {member.mobileNo}
-                                </TableCell>
+                                {fullAccess && (
+                                    <TableCell
+                                        sx={{
+                                            maxWidth: 150,
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            whiteSpace: "nowrap",
+                                        }}
+                                    >
+                                        {member.mobileNo}
+                                    </TableCell>
+                                )}
 
                                 {/* role */}
                                 <TableCell
