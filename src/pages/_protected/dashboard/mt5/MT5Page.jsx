@@ -42,6 +42,8 @@ const SERVERS = [
     "VantageInternational-Live 15",
     "VantageInternational-Live 16",
     "VantageInternational-Live 17",
+    "VantageInternational-Live 18",
+    "VantageInternational-Live 19",
 ];
 
 const MT5Page = () => {
